@@ -2,7 +2,7 @@ import os
 
 from fastapi import APIRouter, FastAPI
 
-from ..routers import calc_micro_router
+from .routers import calc_micro_router
 
 app = FastAPI()
 
@@ -10,4 +10,8 @@ app = FastAPI()
 def ping():
     return 'pong'
 
-app.include_router()
+app.include_router(
+    calc_micro_router.router,
+    tags=["calc_micro"],
+    responses={404: {"description": "Not found"}}
+)

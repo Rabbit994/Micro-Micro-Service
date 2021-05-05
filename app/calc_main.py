@@ -13,7 +13,6 @@ def ping():
 
 app.include_router(
     calc_main_router.router,
-    #prefix="/",
     tags=["calc"],
     responses={404: {"description": "Not found"}}
 )
