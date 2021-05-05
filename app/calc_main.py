@@ -3,7 +3,7 @@ import os
 from fastapi import APIRouter, FastAPI
 from pydantic import main
 
-from .routers import calc_main_router
+from routers import calc_main_router
 
 app = FastAPI()
 

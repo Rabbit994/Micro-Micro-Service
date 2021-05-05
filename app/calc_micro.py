@@ -2,7 +2,7 @@ import os
 
 from fastapi import APIRouter, FastAPI
 
-from .routers import calc_micro_router
+from routers import calc_micro_router
 
 app = FastAPI()
 
