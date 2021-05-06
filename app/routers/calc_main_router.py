@@ -11,7 +11,7 @@ class Calc(BaseModel):
     number1: int
     number2: int
 
-@router.post("/")
+@router.post("/calc")
 def calc(body: Calc):
     if body.op == "add":
         r = requests.get(url=f"{os.getenv('base_url')}/math/api/add?number1={body.number1}&number2={body.number2}")
