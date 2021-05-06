@@ -53,3 +53,11 @@ services:
       - frontend
     ports:
       - '9004:80'
+  ps-tests:
+    #As testing container, it doesn't need to restart or need to have network ports
+    build:
+      context: .
+      dockerfile: pstests/ps_test.dockerfile
+    image: 'ps-tests:latest'
+    networks:
+      - frontend
