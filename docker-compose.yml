@@ -2,31 +2,17 @@ version: '3'
 networks:
   frontend: 
     driver: bridge
-  backend: 
-    driver: bridge
 services:
-  reverse-proxy:
-    # The official v2 Traefik docker image
-    image: traefik:latest
-    # Enables the web UI and tells Traefik to listen to docker
-    command: 
-      - --api.insecure=true 
-      - --providers.docker=true
-      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
-    ports:
-      # The HTTP port
-      - "80:80"
-      # The Web UI (enabled by --api.insecure=true)
-      - "8080:8080"
-    volumes:
-      # So that Traefik can listen to the Docker events
-      #- /var/run/docker.sock:/var/run/docker.sock
-      # This work around is due to bug with WSL, it's not best workaround but works.
-      - /var/run/docker.sock:/var/run/docker.sock
-    networks: 
-      - frontend
-      - backend
+  nginx-proxy:
+    build:
+      context: .
+      dockerfile: nginx/DOCKERFILE
+    image: 'nginx-proxy:latest'
     restart: always
+    networks:
+      - frontend
+    ports:
+      - '9000:80'
   calc-main:
     build:
       context: .
@@ -34,7 +20,7 @@ services:
     image: 'calc-main:latest'
     restart: always
     networks: 
-      - backend
+      - frontend
     ports:
       - '9001:80'
     labels: 
@@ -48,6 +34,6 @@ services:
     ports:
       - '9002:80'
     networks: 
-      - backend
+      - frontend
     labels:
       - traefik.http.routers.calc-micro.rule=Path(\math\api)
