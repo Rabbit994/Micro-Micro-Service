@@ -4,7 +4,7 @@ from fastapi import APIRouter, FastAPI
 
 from .routers import calc_micro_router
 
-app = FastAPI()
+app = FastAPI(openapi_url="/math/api/openapi.json")
 
 @app.get("/ping")
 def ping():
