@@ -11,11 +11,12 @@ class Date(BaseModel):
 
 @router.post("/today")
 def calc(body: Date):
-    r = requests.get(url=f"{os.getenv('base_url')}/date/api/today_month")
+    sess = requests.Session()
+    r = sess.get(url=f"{os.getenv('base_url')}/date/api/today_month")
     month = r.json()['month']
-    r = requests.get(url=f"{os.getenv('base_url')}/date/api/today_day")
+    r = sess.get(url=f"{os.getenv('base_url')}/date/api/today_day")
     day = r.json()['day']
-    r = requests.get(url=f"{os.getenv('base_url')}/date/api/today_year")
+    r = sess.get(url=f"{os.getenv('base_url')}/date/api/today_year")
     year = r.json()['year']
     if body.format == 'american':
         return {"today": f"{month}/{day}/{year}"}
