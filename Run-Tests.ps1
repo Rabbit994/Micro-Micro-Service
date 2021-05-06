@@ -21,13 +21,9 @@ Invoke-RestMethod -Uri 'http://127.0.0.1:9000/date/api/today_day'
 Invoke-RestMethod -Uri 'http://127.0.0.1:9000/date/api/today_month'
 Invoke-RestMethod -Uri 'http://127.0.0.1:9000/date/api/today_year'
 Invoke-RestMethod -Uri 'http://127.0.0.1:9000/date/api/today_unix'
-$oper = @('american','iso8601','european')
-foreach($op in $oper){
-    $a = @{
-        format = $op
-    }
-    Invoke-RestMethod -uri 'http://127.0.0.1:9000/date/today' -Method POST -Body ($a | ConvertTo-Json)
+$a = @{
+    format = 'american'
 }
-
+    Invoke-RestMethod -uri 'http://127.0.0.1:9000/date/today' -Method POST -Body ($a | ConvertTo-Json)
 
 
