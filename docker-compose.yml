@@ -63,6 +63,16 @@ services:
       - frontend
     ports:
       - '9005:80'
+  name-main:
+    build:
+      context: .
+      dockerfile: docker/name_main.dockerfile
+    image: 'name-main:latest'
+    restart: always
+    networks:
+      - frontend
+    ports:
+      - '9006:80'
   ps-tests:
     #As testing container, it doesn't need to restart or need to have network ports
     build:
