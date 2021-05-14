@@ -31,6 +31,14 @@ Describe "Check for server online" -Tags "Ping"{
             $testuri = "$($URI)/date/api/ping"
             Invoke-RestMethod $testuri | Should -Be "pong"
         }
+        It "Name Main is Online"{
+            $testuri = "$($URI)/name/ping"
+            Invoke-RestMethod $testuri | Should -Be "pong"
+        }
+        It "Name Micro is Online" {
+            $testuri = "$($URI)/name/api/ping"
+            Invoke-RestMethod $testuri | Should -Be "pong"
+        }
     }
 }
 Describe "Math Service" -Tags "Math Micro" {
@@ -90,6 +98,74 @@ Describe "Date Service" -Tags "Date" {
             $date = Get-Date
             $fdate = "$($date.ToUniversalTime().month)/$($date.ToUniversalTime().day)/$($date.ToUniversalTime().year)"
             ($result | ConvertTo-Json) | Should -Be (@{today = $fdate} | ConvertTo-JSON)
+        }
+    }
+}
+Describe "Name Service" -Tags "Name" {
+    BeforeAll {
+        $uuid = Invoke-RestMethod -URI "$($URI)/name/api/userid" -Method Post
+        $uuid = $uuid.userid
+        #Write-Host $uuid
+    }
+    Context "Micro" {
+        It "UUID Issued" {
+            $uuid | Should -Not -BeNullOrEmpty
+        }
+        It "UUID List" {
+            Invoke-RestMethod -URI "$($URI)/name/api/userid" -Method Post | Should -Not -BeNullOrEmpty
+        }
+        It "Create First Name" {
+            $global:fname = Invoke-RestMethod -URI "$($URI)/name/api/first?userid=$($uuid)" -Method Post
+            $global:fname | Should -Not -BeNullOrEmpty
+        }
+        It "Check First Name" {
+            $fnametest = Invoke-RestMethod -URI "$($URI)/name/api/first?userid=$($uuid)" -Method Get
+            $fnametest.first_name | Should -Be $fname.first_name
+        }
+        It "Create Surname" {
+            $global:lname = Invoke-RestMethod -URI "$($URI)/name/api/surname?userid=$($uuid)" -Method Post
+            $lname | Should -Not -BeNullOrEmpty
+        }
+        It "Check Surname" {
+            $surnametest = Invoke-RestMethod -URI "$($URI)/name/api/surname?userid=$($uuid)" -Method Get
+            $surnametest.surname | Should -Be $lname.surname
+        }
+        It "Create Email" {
+            $global:email = Invoke-RestMethod -URI "$($URI)/name/api/email?userid=$($uuid)" -Method Post
+            $email | Should -Not -BeNullOrEmpty
+        }
+        It "Check Email" {
+            $emailtest = Invoke-RestMethod -URI "$($URI)/name/api/email?userid=$($uuid)" -Method Get
+            $emailtest.email | Should -Be $email.email
+        }
+        It "Delete First Name" {
+            Invoke-RestMethod -URI "$($URI)/name/api/first?userid=$($uuid)" -Method Delete
+            {Invoke-RestMethod -URI "$($URI)/name/api/first?userid=$($uuid)" -Method Get} | Should -Throw
+        }
+        It "Delete Surname" {
+            Invoke-RestMethod -URI "$($URI)/name/api/surname?userid=$($uuid)" -Method Delete
+            {Invoke-RestMethod -URI "$($URI)/name/api/surname?userid=$($uuid)" -Method Get} | Should -Throw
+        }
+        It "Delete Email" {
+            Invoke-RestMethod -URI "$($URI)/name/api/email?userid=$($uuid)" -Method Delete
+            {Invoke-RestMethod -URI "$($URI)/name/api/email?userid=$($uuid)" -Method Get} | Should -Throw
+        }
+    }
+    Context "Main" {
+        BeforeAll{
+            #Move New User to here
+            $global:new_user = Invoke-RestMethod -URI "$($URI)/name/user" -Method POST
+        }
+        It "New User" {
+            ($global:new_user | ConvertTo-JSON) | Should -Not -BeNullOrEmpty
+        }
+        It "Get User" {
+            $current_user = Invoke-RestMethod -URI "$($URI)/name/user?userid=$($new_user.userid)" -Method GET
+            ($current_user | ConvertTo-JSON) | Should -Be ($new_user | ConvertTo-Json)
+        }
+        It "Delete User"{
+            Invoke-RestMethod -URI "$($URI)/name/user?userid=$($new_user.userid)" -Method Delete
+            {Invoke-RestMethod -URI "$($URI)/name/user?userid=$($new_user.userid)" -Method Get} | Should -Throw
         }
     }
 }
