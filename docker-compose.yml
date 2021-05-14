@@ -53,6 +53,16 @@ services:
       - frontend
     ports:
       - '9004:80'
+  name-micro:
+    build:
+      context: .
+      dockerfile: docker/name_micro.dockerfile
+    image: 'name-micro:latest'
+    restart: always
+    networks:
+      - frontend
+    ports:
+      - '9005:80'
   ps-tests:
     #As testing container, it doesn't need to restart or need to have network ports
     build:
