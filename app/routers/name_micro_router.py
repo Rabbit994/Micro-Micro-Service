@@ -1,4 +1,3 @@
-from app.routers.name_main_router import user
 import csv
 import random
 import uuid
@@ -49,7 +48,7 @@ def surname_user_get(userid:str):
         last_name = LastDB().get_name(user_id=userid)
         return {"userid": userid, "surname": last_name}
     except AssertionError:
-        raise HTTPException(status_code = 409, detail = "User ID does not exist")
+        raise HTTPException(status_code = 404, detail = "User ID does not exist")
 
 @router.post("/surname") #Create Surname and insert into database
 def surname_user_new(userid:str):
@@ -118,6 +117,3 @@ def add_userid():
 def remove_userid(userid:str):
     IDDb().remove_userid(user_id=userid)
     return {"userid": userid}
-
-
-    
