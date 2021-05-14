@@ -4,5 +4,5 @@ RUN rm main.py
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 COPY app/ app/
-ENV email_domain=example.com
-ENV MODULE_NAME=app.name_micro
+ENV base_url=http://micro_nginx-proxy_1
+ENV MODULE_NAME=app.name_main
