@@ -37,7 +37,6 @@
 		"eamodio.gitlens",
 		"ms-vscode.powershell",
 		"visualstudioexptteam.vscodeintellicode",
-		"ms-python.vscode-pylance",
 		"s-azuretools.vscode-docker"
 	],
 
