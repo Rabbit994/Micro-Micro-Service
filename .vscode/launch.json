@@ -5,13 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: FastAPI",
+            "name": "Python: FastAPI - Name Micro",
             "type": "python",
             "request": "launch",
             "module": "uvicorn",
             "cwd": "${workspaceFolder}",
             "args": [
-                "app.main:app"
+                "app.name_micro:app"
             ],
             "jinja": true
         },
