@@ -59,7 +59,7 @@ class LastDB:
             raise AssertionError
 
     def remove_name(self, user_id:str) -> None:
-        self.cur.execute('DELETE FROM last WHERE userid = ?', (user_id,))
+        self.cur.execute('DELETE FROM last WHERE user_id = ?', (user_id,))
         self.conn.commit()
         return None
 
@@ -94,7 +94,7 @@ class EmailDB:
             raise AssertionError
 
     def remove_email(self, user_id:str) -> None:
-        self.cur.execute('DELETE FROM email WHERE userid = ?', (user_id,))
+        self.cur.execute('DELETE FROM email WHERE user_id = ?', (user_id,))
         self.conn.commit()
         return None
 
@@ -120,7 +120,7 @@ class IDDb:
             raise AssertionError
 
     def remove_userid(self, user_id:str) -> None:
-        self.cur.execute('DELETE FROM userid WHERE userid = ?', (user_id,))
+        self.cur.execute('DELETE FROM userid WHERE user_id = ?', (user_id,))
         self.conn.commit()
         return None
 
