@@ -1,5 +1,6 @@
 import sqlite3
 import os
+
 from sqlite3.dbapi2 import IntegrityError
 
 class FirstDB:
@@ -100,6 +101,39 @@ class EmailDB:
     def setup_db(self) -> None:
         self.cur.execute('''CREATE TABLE IF NOT EXISTS "email" (
             "email"	TEXT,
+            "user_id"	TEXT,
+            PRIMARY KEY("user_id")
+            );''')
+        self.conn.commit()
+        return None
+
+class IDDb:
+    def __init__(self):
+        self.conn = sqlite3.connect('app/id.db')
+        self.cur = self.conn.cursor()
+
+    def add_userid(self, userid) -> str:
+        try:
+            self.cur.execute('INSERT INTO userid (user_id) VALUES (?)', (userid,))
+            self.conn.commit()
+        except IntegrityError:
+            raise AssertionError
+
+    def remove_userid(self, user_id:str) -> None:
+        self.cur.execute('DELETE FROM userid WHERE userid = ?', (user_id,))
+        self.conn.commit()
+        return None
+
+    def get_all_userid(self) -> list:
+        self.cur.execute('SELECT user_id FROM userid')
+        user_ids = []
+        data = self.cur.fetchall()
+        for row in data:
+            user_ids.append(row[0])
+        return user_ids
+
+    def setup_db(self) -> None:
+        self.cur.execute('''CREATE TABLE IF NOT EXISTS "userid" (
             "user_id"	TEXT,
             PRIMARY KEY("user_id")
             );''')

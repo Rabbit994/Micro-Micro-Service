@@ -107,10 +107,10 @@ def get_all_userids():
 
 @router.post("/userid")
 def add_userid():
-    uuid = str(uuid.uuid4())
+    userid = str(uuid.uuid4())
     try:
-        IDDb().add_userid(uuid)
-        return {"userid": uuid}
+        IDDb().add_userid(userid)
+        return {"userid": userid}
     except AssertionError:
         raise HTTPException(status_code = 409, detail = "User ID already exists")
 
