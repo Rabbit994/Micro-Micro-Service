@@ -16,6 +16,17 @@
             "jinja": true
         },
         {
+            "name": "Python: FastAPI - Name Main",
+            "type": "python",
+            "request": "launch",
+            "module": "uvicorn",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "app.name_main:app"
+            ],
+            "jinja": true
+        },
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
