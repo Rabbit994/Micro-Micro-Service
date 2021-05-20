@@ -40,7 +40,7 @@ services:
     image: 'date-micro:latest'
     restart: always
     ports:
-      - '9003:80'
+      - '9004:80'
     networks: 
       - frontend
   date-main:
@@ -52,7 +52,7 @@ services:
     networks: 
       - frontend
     ports:
-      - '9004:80'
+      - '9003:80'
   name-micro:
     build:
       context: .
@@ -62,7 +62,7 @@ services:
     networks:
       - frontend
     ports:
-      - '9005:80'
+      - '9006:80'
   name-main:
     build:
       context: .
@@ -72,7 +72,7 @@ services:
     networks:
       - frontend
     ports:
-      - '9006:80'
+      - '9005:80'
   ps-tests:
     #As testing container, it doesn't need to restart or need to have network ports
     build:
