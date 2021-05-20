@@ -9,12 +9,16 @@ router = APIRouter()
 @router.get("/user")
 def user_get(userid:str):
     sess = requests.Session()
-    r = sess.get(url=f"{os.getenv('base_url')}/name/api/first?userid={userid}")
-    first_name = r.json()['first_name']
-    r = sess.get(url=f"{os.getenv('base_url')}/name/api/surname?userid={userid}")
-    surname = r.json()['surname']
-    r = sess.get(url=f"{os.getenv('base_url')}/name/api/email?userid={userid}")
-    email = r.json()['email']
+    try:
+        r = sess.get(url=f"{os.getenv('base_url')}/name/api/first?userid={userid}")
+        first_name = r.json()['first_name']
+        r = sess.get(url=f"{os.getenv('base_url')}/name/api/surname?userid={userid}")
+        surname = r.json()['surname']
+        r = sess.get(url=f"{os.getenv('base_url')}/name/api/email?userid={userid}")
+        email = r.json()['email']
+    except KeyError:
+        if r.status_code == 404:
+            raise HTTPException(status_code=404, detail="User not found")
     return {
         "userid": userid,
         "first_name": first_name,
