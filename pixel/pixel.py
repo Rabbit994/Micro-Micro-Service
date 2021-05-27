@@ -28,8 +28,8 @@ class Pixel:
     def convert_rgb(self, num:tuple) -> str:
         return '%02x%02x%02x' % num
 
-x_maximum = 160
-y_maximum = 90
+x_maximum = 208
+y_maximum = 117
 with open('token.txt') as f:
     token = f.readlines()[0]
 pixel = Pixel(token=token)
@@ -37,8 +37,8 @@ while True:
     rgb = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
     try:
         r = pixel.set_pixel(
-            x = random.randint(1,x_maximum),
-            y = random.randint(1,y_maximum),
+            x = random.randint(1, x_maximum),
+            y = random.randint(1, y_maximum),
             rgb = str(pixel.convert_rgb(rgb))
         )
         headers = dict(r.headers)
