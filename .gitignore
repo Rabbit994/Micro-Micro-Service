@@ -131,3 +131,9 @@ dmypy.json
 #Ignore SQLite Files
 *.db
 *.db*
+#ignore pixel token
+token.txt
+#Don't commit kubectl
+k8s/kubectl.exe
+k8s/docker-config.json
+k8s/kubeconfig.yaml
