@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: calc-micro-service
+spec:
+  selector:
+    app: calc-micro
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 80
+---
+Version: apps/v1
+kind: Deployment
+metadata:
+  name: calc-micro-service
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: calc-micro
+  template:
+    metadata:
+      labels:
+        app: hello-one
+    spec:
+      containers:
+        image: rabbitk8straining.azurecr.io/calc-micro:latest
+        name: calc-micro
+        ports:
+          - containerPort: 80
+            name: http
+            protocol: TCP
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "64Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+        livenessProbe:
+          httpGet:
+            path: /ping
+            port: 80
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+          periodSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ping
+            port: 80
+          initialDelaySeconds: 30
+          timeoutSeconds: 1
+          periodSeconds: 10
+          failureThreshold: 3
+      imagePullSecrets:
+        - name: regcred
+    
