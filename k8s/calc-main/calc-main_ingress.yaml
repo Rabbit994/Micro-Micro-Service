@@ -2,15 +2,17 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: calc-micro-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
   labels:
     name: calc-micro-ingress
 spec:
   rules:
-  - host: micromicroservice.net
+  - host: www.micromicroservice.net
     http:
       paths:
-      - pathType: Prefix
-        path: "/"
+      - path: /math/api
+        pathType: Prefix
         backend:
           service:
             name: calc-micro-service

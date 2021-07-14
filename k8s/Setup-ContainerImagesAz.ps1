@@ -12,7 +12,7 @@ param (
 )
 Import-Module Az -ErrorAction Stop
 Connect-AzAccount
-New-AzResourceGroup -Name $ResourceGroupName -Location eastus2
+New-AzResourceGroup -Name $ResourceGroupName -Location eastus2 -Force
 New-AzContainerRegistry -ResourceGroupName $ResourceGroupName -Name $RegistryName -Sku "Basic" -EnableAdminUser
 Connect-AzContainerRegistry -Name $RegistryName
 Set-Location ..
@@ -31,4 +31,12 @@ Start-Process -FilePath docker -ArgumentList "build -t $($RegistryFQDN)/name-mic
 Start-Process -FilePath docker -ArgumentList "push $($RegistryFQDN)/name-micro:latest" -Wait -NoNewWindow
 Set-Location k8s
 $creds = Get-AzContainerRegistryCredential -ResourceGroupName $ResourceGroupName -Name $RegistryName
-Start-Process -FilePath kubectl -ArgumentList "create secret docker-registry regcred --docker-server=$($RegistryFQDN) --docker-username=$($creds.Username) --docker-password=$($creds.Password)"
+$params = @{
+    FilePath = "kubectl"
+    ArgumentList = @("--kubeconfig=kubeconfig.yaml",
+        "create secret docker-registry regcred --docker-server=$($RegistryFQDN) --docker-username=$($creds.Username) --docker-password=$($creds.Password)")
+    NoNewWindow = $true
+    Wait = $true
+}
+Start-Process @params
+(Get-Content calc-micro_service-base.yaml) -replace "{registryname}","$($RegistryFQDN)" | Set-Content calc-micro_service.yaml

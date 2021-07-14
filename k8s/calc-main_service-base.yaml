@@ -26,7 +26,7 @@ spec:
     spec:
       containers:
       - name: calc-micro
-        image: rabbitk8straining.azurecr.io/calc-micro:latest
+        image: {registryname}/calc-micro:latest
         ports:
         - containerPort: 80
           name: http
