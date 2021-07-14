@@ -1,32 +1,32 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: calc-main-service
+  name: date-micro-service
 spec:
   type: ClusterIP
   ports:
   - port: 80
     targetPort: 80
   selector:
-    app: calc-main
+    app: date-micro
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: calc-main-deploy
+  name: date-micro-deploy
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: calc-main
+      app: date-micro
   template:
     metadata:
       labels:
-        app: calc-main
+        app: date-micro
     spec:
       containers:
-      - name: calc-main
-        image: {registryname}/calc-main:latest
+      - name: date-micro
+        image: {registryname}/date-micro:latest
         ports:
         - containerPort: 80
           name: http

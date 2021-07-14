@@ -137,3 +137,6 @@ token.txt
 k8s/kubectl.exe
 k8s/docker-config.json
 k8s/kubeconfig.yaml
+
+#Ignore Service Files, they came from base file
+*_service.yaml

@@ -10,7 +10,7 @@ $params = @{
     NoNewWindow = $true
     Wait = $true
     ArgumentList = @("--kubeconfig=kubeconfig.yaml",
-    "apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/do/deploy.yaml")
+    "delete -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/do/deploy.yaml")
 }
 #Start-Process @params #Digital Ocean already applies Ingress Controllers
 #region Calc-Main
@@ -19,7 +19,7 @@ $params = @{
     NoNewWindow = $true
     Wait = $true
     ArgumentList = @('--kubeconfig=kubeconfig.yaml',
-    'apply -f', './calc-main/calc-main_service.yaml'
+    'delete -f', './calc-main/calc-main_service.yaml'
     )
 }
 Start-Process @params
@@ -28,7 +28,7 @@ $params = @{
     NoNewWindow = $true
     Wait = $true
     ArgumentList = @('--kubeconfig=kubeconfig.yaml',
-    'apply -f', './calc-main/calc-main_ingress.yaml'
+    'delete -f', './calc-main/calc-main_ingress.yaml'
     )
 }
 #endregion
@@ -39,7 +39,7 @@ $params = @{
     NoNewWindow = $true
     Wait = $true
     ArgumentList = @('--kubeconfig=kubeconfig.yaml',
-    'apply -f', './calc-micro/calc-micro_service.yaml'
+    'delete -f', './calc-micro/calc-micro_service.yaml'
     )
 }
 Start-Process @params
@@ -48,7 +48,7 @@ $params = @{
     NoNewWindow = $true
     Wait = $true
     ArgumentList = @('--kubeconfig=kubeconfig.yaml',
-    'apply -f', './calc-micro/calc-micro_ingress.yaml'
+    'delete -f', './calc-micro/calc-micro_ingress.yaml'
     )
 }
 #endregion
@@ -59,7 +59,7 @@ $params = @{
     NoNewWindow = $true
     Wait = $true
     ArgumentList = @('--kubeconfig=kubeconfig.yaml',
-    'apply -f', './date-main/date-main_service.yaml'
+    'delete -f', './date-main/date-main_service.yaml'
     )
 }
 Start-Process @params
@@ -68,7 +68,7 @@ $params = @{
     NoNewWindow = $true
     Wait = $true
     ArgumentList = @('--kubeconfig=kubeconfig.yaml',
-    'apply -f', './date-main/date-main_ingress.yaml'
+    'delete -f', './date-main/date-main_ingress.yaml'
     )
 }
 Start-Process @params
@@ -80,7 +80,7 @@ $params = @{
     NoNewWindow = $true
     Wait = $true
     ArgumentList = @('--kubeconfig=kubeconfig.yaml',
-    'apply -f', './date-micro/date-micro_service.yaml'
+    'delete -f', './date-micro/date-micro_service.yaml'
     )
 }
 Start-Process @params
@@ -89,7 +89,7 @@ $params = @{
     NoNewWindow = $true
     Wait = $true
     ArgumentList = @('--kubeconfig=kubeconfig.yaml',
-    'apply -f', './date-micro/date-micro_ingress.yaml'
+    'delete -f', './date-micro/date-micro_ingress.yaml'
     )
 }
 Start-Process @params
@@ -100,7 +100,7 @@ $params = @{
     NoNewWindow = $true
     Wait = $true
     ArgumentList = @('--kubeconfig=kubeconfig.yaml',
-    'apply -f', './name-main/name-main_service.yaml'
+    'delete -f', './name-main/name-main_service.yaml'
     )
 }
 Start-Process @params
@@ -109,7 +109,7 @@ $params = @{
     NoNewWindow = $true
     Wait = $true
     ArgumentList = @('--kubeconfig=kubeconfig.yaml',
-    'apply -f', './name-main/name-main_ingress.yaml'
+    'delete -f', './name-main/name-main_ingress.yaml'
     )
 }
 Start-Process @params
@@ -120,7 +120,7 @@ $params = @{
     NoNewWindow = $true
     Wait = $true
     ArgumentList = @('--kubeconfig=kubeconfig.yaml',
-    'apply -f', './name-micro/name-micro_service.yaml'
+    'delete -f', './name-micro/name-micro_service.yaml'
     )
 }
 Start-Process @params
@@ -129,7 +129,7 @@ $params = @{
     NoNewWindow = $true
     Wait = $true
     ArgumentList = @('--kubeconfig=kubeconfig.yaml',
-    'apply -f', './name-micro/name-micro_ingress.yaml'
+    'delete -f', './name-micro/name-micro_ingress.yaml'
     )
 }
 Start-Process @params

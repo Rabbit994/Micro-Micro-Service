@@ -1,32 +1,32 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: calc-main-service
+  name: name-micro-service
 spec:
   type: ClusterIP
   ports:
   - port: 80
     targetPort: 80
   selector:
-    app: calc-main
+    app: name-micro
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: calc-main-deploy
+  name: name-micro-deploy
 spec:
-  replicas: 1
+  replicas: 1 #If you increase the replicas, you will run into issues due to SQLite
   selector:
     matchLabels:
-      app: calc-main
+      app: name-micro
   template:
     metadata:
       labels:
-        app: calc-main
+        app: name-micro
     spec:
       containers:
-      - name: calc-main
-        image: {registryname}/calc-main:latest
+      - name: name-micro
+        image: {registryname}/name-micro:latest
         ports:
         - containerPort: 80
           name: http

@@ -39,4 +39,9 @@ $params = @{
     Wait = $true
 }
 Start-Process @params
-(Get-Content calc-micro_service-base.yaml) -replace "{registryname}","$($RegistryFQDN)" | Set-Content calc-micro_service.yaml
+(Get-Content ./calc-micro/calc-micro_service-base.yaml) -replace "{registryname}","$($RegistryFQDN)" | Set-Content ./calc-micro/calc-micro_service.yaml
+(Get-Content ./calc-main/calc-main_service-base.yaml) -replace "{registryname}","$($RegistryFQDN)" | Set-Content ./calc-main/calc-main_service.yaml
+(Get-Content ./date-main/date-main_service-base.yaml) -replace "{registryname}","$($RegistryFQDN)" | Set-Content ./date-main/date-main_service.yaml
+(Get-Content ./date-micro/date-micro_service-base.yaml) -replace "{registryname}","$($RegistryFQDN)" | Set-Content ./date-micro/date-micro_service.yaml
+(Get-Content ./name-main/name-main_service-base.yaml) -replace "{registryname}","$($RegistryFQDN)" | Set-Content ./name-main/name-main_service.yaml
+(Get-Content ./name-micro/name-micro_service-base.yaml) -replace "{registryname}","$($RegistryFQDN)" | Set-Content ./name-micro/name-micro_service.yaml
