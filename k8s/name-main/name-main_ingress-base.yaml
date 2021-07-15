@@ -1,21 +1,21 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: calc-main-ingress
+  name: name-main-ingress
   annotations:
     kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/rewrite-target: /$2
   labels:
-    name: calc-main-ingress
+    name: name-main-ingress
 spec:
   rules:
-  - host: www.micromicroservice.net
+  - host: {hostname}
     http:
       paths:
-      - path: /math(/|$)(.*)
+      - path: /name(/|$)(.*)
         pathType: Prefix
         backend:
           service:
-            name: calc-main-service
+            name: name-main-service
             port: 
               number: 80
