@@ -31,6 +31,16 @@ spec:
         - containerPort: 80
           name: http
           protocol: TCP
+        env:
+        - name: MODULE_NAME
+          value: app.name_micro
+        - name: email_domain
+          value: example.com
+        - name: base_url
+          valueFrom:
+            secretKeyRef:
+              name: baseurl
+              key: uri
         resources:
           requests:
             cpu: "100m"
