@@ -1,18 +1,40 @@
-
+[CmdletBinding()]
+param (
+    # Parameter help description
+    [Parameter(Mandatory=$true)]
+    [string]
+    $HostName,
+    # Parameter help description
+    [Parameter(Mandatory=$false)]
+    [switch]
+    $LoadGen
+)
 if ((Test-Path -Path kubectl.exe) -eq $false){
     throw "You do not have Kubectl installed, please download it and put into k8s folder"
 }
 if ((Test-Path -Path kubeconfig.yaml) -eq $false){
     throw "Please download kubeconfig.yaml file from your provider and load into k8s folder"
 }
+
+#region Setup Ingress Files
+(Get-Content ./calc-micro/calc-micro_ingress-base.yaml) -replace "{hostname}","$($HostName)" | Set-Content ./calc-micro/calc-micro_ingress.yaml
+(Get-Content ./calc-main/calc-main_ingress-base.yaml) -replace "{hostname}","$($HostName)" | Set-Content ./calc-main/calc-main_ingress.yaml
+(Get-Content ./date-main/date-main_ingress-base.yaml) -replace "{hostname}","$($HostName)" | Set-Content ./date-main/date-main_ingress.yaml
+(Get-Content ./date-micro/date-micro_ingress-base.yaml) -replace "{hostname}","$($HostName)" | Set-Content ./date-micro/date-micro_ingress.yaml
+(Get-Content ./name-main/name-main_ingress-base.yaml) -replace "{hostname}","$($HostName)" | Set-Content ./name-main/name-main_ingress.yaml
+(Get-Content ./name-micro/name-micro_ingress-base.yaml) -replace "{hostname}","$($HostName)" | Set-Content ./name-micro/name-micro_ingress.yaml
+#endregion
+
+#region Setup secret
 $params = @{
     Filepath = "kubectl.exe"
     NoNewWindow = $true
     Wait = $true
-    ArgumentList = @("--kubeconfig=kubeconfig.yaml",
-    "apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.47.0/deploy/static/provider/do/deploy.yaml")
+    ArgumentList = @('--kubeconfig=kubeconfig.yaml',
+    "create secret generic baseurl --from-literal=uri=http://$($HostName)"
+    )
 }
-#Start-Process @params #Digital Ocean already applies Ingress Controllers
+Start-Process @params
 #region Calc-Main
 $params = @{
     Filepath = "kubectl.exe"
@@ -133,4 +155,17 @@ $params = @{
     )
 }
 Start-Process @params
+#endregion
+
+#region LoadGen
+if ($LoadGen){
+    $params = @{
+        Filepath = "kubectl.exe"
+        NoNewWindow = $true
+        Wait = $true
+        ArgumentList = @('--kubeconfig=kubeconfig.yaml',
+        'apply -f', './load-gen/loadgen_service.yaml'
+        )
+    }
+}
 #endregion

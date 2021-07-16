@@ -134,3 +134,15 @@ $params = @{
 }
 Start-Process @params
 #endregion
+
+#Region LoadGen
+$params = @{
+    Filepath = "kubectl.exe"
+    NoNewWindow = $true
+    Wait = $true
+    ArgumentList = @('--kubeconfig=kubeconfig.yaml',
+    'delete -f', './load-gen/loadgen_service.yaml'
+    )
+}
+Start-Process @params
+#endregion

@@ -8,7 +8,11 @@ param (
     # Parameter help description
     [Parameter(Mandatory=$false)]
     [string]
-    $ResourceGroupName = "Kubes-Training"
+    $ResourceGroupName = "Kubes-Training",
+    # Parameter help description
+    [Parameter(Mandatory=$false)]
+    [switch]
+    $LoadGen
 )
 Import-Module Az -ErrorAction Stop
 Connect-AzAccount
@@ -45,3 +49,10 @@ Start-Process @params
 (Get-Content ./date-micro/date-micro_service-base.yaml) -replace "{registryname}","$($RegistryFQDN)" | Set-Content ./date-micro/date-micro_service.yaml
 (Get-Content ./name-main/name-main_service-base.yaml) -replace "{registryname}","$($RegistryFQDN)" | Set-Content ./name-main/name-main_service.yaml
 (Get-Content ./name-micro/name-micro_service-base.yaml) -replace "{registryname}","$($RegistryFQDN)" | Set-Content ./name-micro/name-micro_service.yaml
+if ($LoadGen){
+    Set-Location ..
+    Start-Process -FilePath docker -ArgumentList "build -t $($RegistryFQDN)/loadgen:latest -f loadtester/load_gen.dockerfile ." -Wait -NoNewWindow
+    Start-Process -FilePath docker -ArgumentList "push $($RegistryFQDN)/loadgen:latest" -Wait -NoNewWindow
+    Set-Location k8s
+    (Get-Content ./load-gen/loadgen_service-base.yaml) -replace "{registryname}","$($RegistryFQDN)" | Set-Content ./load-gen/loadgen_service.yaml
+}
