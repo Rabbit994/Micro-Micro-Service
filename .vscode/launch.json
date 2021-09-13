@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: Load Gen",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "${fileDirname}",
+            "env": {
+                "base_url": "http://www.micromicroservice.net"
+            }
+        },
+        {
             "name": "Python: FastAPI - Name Micro",
             "type": "python",
             "request": "launch",
